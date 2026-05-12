@@ -1,4 +1,4 @@
-# Paper Hands Therapy 💊
+# Paper Hands Therapy 
 
 A wallet roaster disguised as a psychiatry session. Paste your ETH or Solana wallet and Dr. Rekt, powered by GoldRush's on-chain APIs, delivers a brutally honest psychiatric diagnosis of your trading decisions.
 
