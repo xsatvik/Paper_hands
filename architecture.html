@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Paper Hands Therapy — Architecture</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d0d0d;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #e0e0e0;
+    padding: 48px 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.05rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #444;
+    margin-bottom: 52px;
+  }
+
+  h1 span { color: #fff; }
+
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  /* section wrappers */
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 18px 20px;
+    border-radius: 14px;
+  }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .section.frontend { background: #0a1525; border: 1px solid #1a3355; }
+  .section.frontend .section-label { color: #4a9eff; }
+
+  .section.backend  { background: #130d1e; border: 1px solid #3a1755; }
+  .section.backend  .section-label { color: #c084fc; }
+
+  .section.goldrush { background: #091509; border: 1px solid #164716; }
+  .section.goldrush .section-label { color: #4aff6b; }
+
+  .section.ai       { background: #141000; border: 1px solid #3d2f00; }
+  .section.ai       .section-label { color: #fbbf24; }
+
+  /* generic node */
+  .node {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    text-align: center;
+    color: #999;
+    white-space: nowrap;
+  }
+
+  .node strong {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+
+  .node.user {
+    border-radius: 50px;
+    padding: 13px 22px;
+    border-color: #2a2a2a;
+  }
+  .node.user strong { color: #ccc; }
+
+  .node.decision { border: 1px dashed #3a3a3a; }
+  .node.decision strong { color: #f59e0b; }
+
+  .node.fe { border-color: #1a3a58; }
+  .node.fe strong { color: #4a9eff; }
+
+  .node.api { border-color: #194f19; }
+  .node.api strong { color: #4aff6b; }
+
+  .node.llm { border-color: #3a2c00; background: #110d00; }
+  .node.llm strong { color: #fbbf24; }
+
+  /* column of nodes */
+  .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* GoldRush two-path layout */
+  .gr-paths {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .gr-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gr-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .badge {
+    font-size: 0.58rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #3a3a3a;
+  }
+
+  .sep {
+    width: 1px;
+    background: #1e1e1e;
+    align-self: stretch;
+  }
+
+  /* arrows */
+  .arr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 12px;
+    flex-shrink: 0;
+  }
+
+  .arr-lbl {
+    font-size: 0.58rem;
+    color: #333;
+    letter-spacing: 0.5px;
+  }
+
+  .mini { color: #282828; font-size: 0.9rem; line-height: 1.2; text-align: center; }
+  .mini-lbl { font-size: 0.58rem; color: #2e2e2e; }
+</style>
+</head>
+<body>
+
+<h1><span>Paper Hands Therapy</span> — System Architecture</h1>
+
+<div class="flow">
+
+  <!-- USER -->
+  <div class="node user">
+    <strong>👤 User</strong>
+    wallet address
+  </div>
+
+  <div class="arr">
+    <svg width="32" height="10"><path d="M0 5h28M22 1.5l6 3.5-6 3.5" stroke="#2e2e2e" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- FRONTEND -->
+  <div class="section frontend">
+    <div class="section-label">⚛️ Frontend — React + Vite</div>
+    <div class="col">
+      <div class="node fe"><strong>Wallet Input</strong>address + chain</div>
+      <div class="mini">↓</div>
+      <div class="node fe"><strong>Roast Session</strong>chapters · diagnosis · share</div>
+    </div>
+  </div>
+
+  <div class="arr">
+    <svg width="32" height="10"><path d="M0 5h28M22 1.5l6 3.5-6 3.5" stroke="#2e2e2e" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+    <div class="arr-lbl">POST /roast</div>
+  </div>
+
+  <!-- BACKEND -->
+  <div class="section backend">
+    <div class="section-label">🐍 Backend — FastAPI</div>
+    <div class="node decision">
+      <strong>EVM or Solana?</strong>
+      route by chain
+    </div>
+  </div>
+
+  <div class="arr">
+    <svg width="32" height="10"><path d="M0 5h28M22 1.5l6 3.5-6 3.5" stroke="#2e2e2e" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- GOLDRUSH -->
+  <div class="section goldrush">
+    <div class="section-label">🔗 GoldRush APIs</div>
+    <div class="gr-paths">
+
+      <!-- EVM -->
+      <div class="gr-col">
+        <div class="badge">EVM path</div>
+        <div class="node api">
+          <strong>upnlForWallet</strong>
+          Streaming GraphQL · cost basis · PnL
+        </div>
+        <div class="mini">↓ <span class="mini-lbl">if empty</span></div>
+        <div class="node api">
+          <strong>transactions_v3</strong>
+          ERC20 transfer fallback
+        </div>
+        <div class="mini">↓</div>
+        <div class="gr-row">
+          <div class="node api">
+            <strong>portfolio_v2</strong>
+            current prices
+          </div>
+          <div class="node api">
+            <strong>pricing/historical_by_addresses_v2</strong>
+            ETH + BTC at buy date
+          </div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- Solana -->
+      <div class="gr-col">
+        <div class="badge">Solana path</div>
+        <div class="node api">
+          <strong>balances_v2</strong>
+          holdings + SOL what-if
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="arr">
+    <svg width="32" height="10"><path d="M0 5h28M22 1.5l6 3.5-6 3.5" stroke="#2e2e2e" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- AI LAYER -->
+  <div class="section ai">
+    <div class="section-label">✨ AI Layer</div>
+    <div class="col">
+      <div class="node llm"><strong>Build Prompt</strong>trades + what-if data</div>
+      <div class="mini">↓</div>
+      <div class="node llm"><strong>Gemini 3.1 Flash Lite</strong>generates roast</div>
+      <div class="mini">↓</div>
+      <div class="node llm"><strong>Parse Response</strong>chapters · diagnosis</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
